@@ -372,7 +372,7 @@ export default function ProfilePage() {
                 </h2>
                 <ActiveComponent />
               </motion.div>
-            </AnimatePresence>
+            </AnimatePresence>  
           </div>
         </div>
       </div>
