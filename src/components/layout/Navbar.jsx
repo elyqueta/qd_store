@@ -103,7 +103,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 flex-shrink-0">
             <img
-              src="public/favicon.webp"
+              src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
               className="h-8 w-auto object-contain"
               style={{ maxWidth: '120px' }}

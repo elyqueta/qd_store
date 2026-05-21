@@ -52,7 +52,7 @@ export default function Footer() {
           {/* Logo — click goes to home */}
           <Link to="/" className="flex items-center">
             <img
-              src="public/favicon.webp"
+              src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
               className="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
               style={{ maxWidth: '110px'}}
