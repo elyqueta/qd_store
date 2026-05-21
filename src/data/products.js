@@ -1,6 +1,7 @@
 export const categories = [
   { id: 'smartphones', label: 'Smartphones', icon: '📱' },
-  { id: 'portateis', label: 'Portáteis', icon: '💻' },
+  { id: 'Laptops', label: 'Laptops', icon: '💻' },
+  { id: 'Desktops', label: 'Desktops', icon: '🖥️' },
   { id: 'audio', label: 'Áudio', icon: '🎧' },
   { id: 'gaming', label: 'Gaming', icon: '🎮' },
   { id: 'acessorios', label: 'Acessórios', icon: '⚡' },
@@ -79,11 +80,11 @@ export const products = [
     featured: false,
   },
 
-  // Portáteis
+  // Laptops
   {
     id: 'macbook-pro-16-m3',
     name: 'MacBook Pro 16" M3 Max',
-    category: 'portateis',
+    category: 'Laptops',
     price: 1850000,
     priceFormatted: '1.850.000 Kz',
     badge: 'Premium',
@@ -106,7 +107,7 @@ export const products = [
   {
     id: 'dell-xps-15',
     name: 'Dell XPS 15 OLED',
-    category: 'portateis',
+    category: 'Laptops',
     price: 1250000,
     priceFormatted: '1.250.000 Kz',
     badge: 'Mais Vendido',
@@ -128,7 +129,7 @@ export const products = [
   {
     id: 'asus-rog-zephyrus',
     name: 'ASUS ROG Zephyrus G16',
-    category: 'portateis',
+    category: 'Laptops',
     price: 1480000,
     priceFormatted: '1.480.000 Kz',
     badge: 'Gaming',
@@ -146,6 +147,94 @@ export const products = [
       'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=800&q=80',
     ],
     featured: false,
+  },
+
+  // Desktops
+  {
+    id: 'imac-24-m3',
+    name: 'iMac 24" M3',
+    category: 'Desktops',
+    price: 1680000,
+    priceFormatted: '1.680.000 Kz',
+    badge: 'Novo',
+    description: 'O computador de secretária mais elegante e poderoso da Apple. Chip M3, ecrã Retina 4.5K de 24", design ultrafino em alumínio colorido.',
+    specs: {
+      'Ecrã': '24" 4.5K Retina, 500 nits',
+      'Processador': 'Apple M3',
+      'RAM': '8GB / 16GB / 24GB',
+      'SSD': '256GB / 512GB / 1TB / 2TB',
+      'GPU': '10 núcleos',
+      'Câmara': '12MP Center Stage',
+      'Portas': '2x Thunderbolt 4, 2x USB 3, Ethernet',
+    },
+    images: [
+      'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=800&q=80',
+      'https://images.unsplash.com/photo-1526570207772-784d36084510?w=800&q=80',
+    ],
+    featured: true,
+  },
+  {
+    id: 'dell-xps-tower',
+    name: 'Dell XPS 8960 Tower',
+    category: 'Desktops',
+    price: 1120000,
+    priceFormatted: '1.120.000 Kz',
+    badge: 'Performance',
+    description: 'Torre compacta de alto desempenho com Intel Core i9 de 13ª geração e NVIDIA RTX 4070. Ideal para trabalho criativo e gaming.',
+    specs: {
+      'Processador': 'Intel Core i9-13900',
+      'GPU': 'NVIDIA RTX 4070 12GB',
+      'RAM': '32GB DDR5',
+      'SSD': '1TB NVMe + 2TB HDD',
+      'Alimentação': '750W 80+ Gold',
+      'Arrefecimento': 'Líquido 240mm',
+    },
+    images: [
+      'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=800&q=80',
+    ],
+    featured: false,
+  },
+  {
+    id: 'asus-rog-strix-Desktops',
+    name: 'ASUS ROG Strix G35',
+    category: 'Desktops',
+    price: 1380000,
+    priceFormatted: '1.380.000 Kz',
+    badge: 'Gaming',
+    description: 'PC gaming desktop com design agressivo ROG. AMD Ryzen 9 7900X, RTX 4080 e arrefecimento líquido para máximo desempenho.',
+    specs: {
+      'Processador': 'AMD Ryzen 9 7900X',
+      'GPU': 'NVIDIA RTX 4080 16GB',
+      'RAM': '32GB DDR5 6000MHz',
+      'SSD': '2TB NVMe PCIe 5',
+      'Alimentação': '850W 80+ Platinum',
+      'RGB': 'ASUS Aura Sync',
+    },
+    images: [
+      'https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800&q=80',
+    ],
+    featured: false,
+  },
+  {
+    id: 'mac-mini-m2-pro',
+    name: 'Mac Mini M2 Pro',
+    category: 'Desktops',
+    price: 920000,
+    priceFormatted: '920.000 Kz',
+    badge: 'Compacto',
+    description: 'O menor desktop mais poderoso da Apple. Chip M2 Pro, até 32GB RAM e múltiplas portas Thunderbolt 4 num formato ultra-compacto.',
+    specs: {
+      'Processador': 'Apple M2 Pro',
+      'RAM': '16GB / 32GB',
+      'SSD': '512GB / 1TB / 2TB / 4TB / 8TB',
+      'Portas': '2x Thunderbolt 4, 3x USB-A, HDMI, SD Card',
+      'Dimensões': '19.7 × 19.7 × 3.6 cm',
+      'Peso': '1.18 kg',
+    },
+    images: [
+      'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=800&q=80',
+    ],
+    featured: true,
   },
 
   // Áudio
@@ -349,6 +438,16 @@ export const heroSlides = [
   },
   {
     id: 3,
+    label: 'Desktop Premium',
+    title: 'iMac 24"\nM3',
+    subtitle: 'Ecrã 4.5K. Chip M3. Design que define um espaço.',
+    cta: 'Ver Detalhes',
+    ctaLink: '/produto/imac-24-m3',
+    bg: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=1920&q=90',
+    accent: '#f5f5f0',
+  },
+  {
+    id: 4,
     label: 'Áudio Premium',
     title: 'Sony\nWH-1000XM5',
     subtitle: 'O melhor ANC do mundo. 30 horas de bateria.',
@@ -358,7 +457,7 @@ export const heroSlides = [
     accent: '#c8ff00',
   },
   {
-    id: 4,
+    id: 5,
     label: 'Gaming Nível Pro',
     title: 'PlayStation 5\nSlim',
     subtitle: 'Nova geração. Design compacto. Ray Tracing nativo.',
@@ -368,5 +467,3 @@ export const heroSlides = [
     accent: '#c8ff00',
   },
 ]
-
-

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ShoppingCart, Search, X, ChevronRight } from 'lucide-react'
+import { ShoppingCart, Search, X, ChevronRight, User } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -21,6 +21,14 @@ const megaMenus = {
       { label: 'ASUS ROG Zephyrus', sub: 'RTX 4090 · 240Hz', to: '/produto/asus-rog-zephyrus', img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=200&q=80' },
     ],
     cta: { label: 'Ver todos os Portáteis', to: '/catalogo?categoria=portateis' },
+  },
+  Computadores: {
+    items: [
+      { label: 'iMac 24" M3', sub: '4.5K Retina · Chip M3', to: '/produto/imac-24-m3', img: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=200&q=80' },
+      { label: 'Mac Mini M2 Pro', sub: 'Compacto · Ultra-rápido', to: '/produto/mac-mini-m2-pro', img: 'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=200&q=80' },
+      { label: 'Dell XPS 8960 Tower', sub: 'i9 · RTX 4070', to: '/produto/dell-xps-tower', img: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&q=80' },
+    ],
+    cta: { label: 'Ver todos os Computadores', to: '/catalogo?categoria=computadores' },
   },
   Áudio: {
     items: [
@@ -45,7 +53,6 @@ const megaMenus = {
     ],
     cta: { label: 'Ver todos os Acessórios', to: '/catalogo?categoria=acessorios' },
   },
-  'Comprar': null,
 }
 
 export default function Navbar() {
@@ -79,14 +86,12 @@ export default function Navbar() {
   }
   const handleMenuMouseEnter = () => clearTimeout(timerRef.current)
 
-  // Nav style: on hero without scroll → transparent dark; scrolled or not hero → glass
   const navStyle = isHero && !scrolled
     ? 'nav-glass-dark'
     : 'nav-glass border-b border-black/10'
 
   const textColor = isHero && !scrolled ? 'text-white/90' : 'text-qd-dark'
   const textHover = isHero && !scrolled ? 'hover:text-white' : 'hover:text-qd-accent'
-  const logoColor = isHero && !scrolled ? 'text-white' : 'text-qd-dark'
   const cartColor = isHero && !scrolled ? 'text-white/80 hover:text-white' : 'text-qd-dark/70 hover:text-qd-dark'
 
   return (
@@ -96,12 +101,16 @@ export default function Navbar() {
         <div className="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between">
 
           {/* Logo */}
-          <Link to="/" className={`font-medium text-sm tracking-tight flex items-center gap-1.5 ${logoColor}`}>
-            <div className={`w-6 h-6 flex items-center justify-center font-bold text-xs ${isHero && !scrolled ? 'bg-white text-black' : 'bg-qd-dark text-white'} transition-colors`}>Q</div>
-            <span>QD <span className="font-light opacity-60">· ItSOLUTIONS</span></span>
+          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+            <img
+              src="./public/favicon.webp"
+              alt="QD · ItSOLUTIONS"
+              className="h-8 w-auto object-contain"
+              style={{ maxWidth: '120px' }}
+            />
           </Link>
 
-          {/* Desktop links */}
+          {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
               <div
@@ -110,30 +119,23 @@ export default function Navbar() {
                 onMouseEnter={() => handleMouseEnter(key)}
                 onMouseLeave={handleMouseLeave}
               >
-                {key === 'Comprar' ? (
-                  <Link
-                    to="/catalogo"
-                    className={`px-4 py-1.5 text-xs font-medium transition-colors duration-200 ${textColor} ${textHover}`}
-                  >
-                    {key}
-                  </Link>
-                ) : (
-                  <Link
-                    to={key === 'Início' ? '/' : `/catalogo?categoria=${key.toLowerCase()}`}
-                    className={`px-4 py-1.5 text-xs font-medium transition-colors duration-200 ${textColor} ${textHover}`}
-                  >
-                    {key}
-                  </Link>
-                )}
+                <Link
+                  to={key === 'Início' ? '/' : `/catalogo?categoria=${key.toLowerCase()}`}
+                  className={`px-4 py-1.5 text-xs font-medium transition-colors duration-200 ${textColor} ${textHover}`}
+                >
+                  {key}
+                </Link>
               </div>
             ))}
           </div>
 
-          {/* Right actions */}
+          {/* Right actions — desktop: Search, Cart, Profile */}
           <div className="flex items-center gap-4">
+            {/* Search */}
             <Link to="/catalogo" className={`hidden md:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
               <Search size={16} />
             </Link>
+            {/* Cart */}
             <button onClick={toggleCart} className={`relative transition-colors ${cartColor}`} aria-label="Carrinho">
               <ShoppingCart size={16} />
               {count > 0 && (
@@ -142,8 +144,20 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+            {/* Profile */}
+            <Link to="/perfil" className={`hidden md:flex transition-colors ${cartColor}`} aria-label="Perfil">
+              <User size={16} />
+            </Link>
+
+            {/* Mobile hamburger */}
             <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
-              {mobileOpen ? <X size={18} className={textColor} /> : <div className="flex flex-col gap-1"><div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`}/><div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`}/></div>}
+              {mobileOpen
+                ? <X size={18} className={textColor} />
+                : <div className="flex flex-col gap-1">
+                    <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />
+                    <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />
+                  </div>
+              }
             </button>
           </div>
         </div>
@@ -204,21 +218,46 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-white pt-[var(--nav-height)] overflow-y-auto"
           >
             <div className="px-6 py-8 flex flex-col gap-1">
+              {/* Mobile: Search, Cart, Profile row */}
+              <div className="flex items-center justify-around py-4 mb-4 border-b border-qd-border">
+                <Link to="/catalogo" onClick={() => setMobileOpen(false)} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors">
+                  <Search size={20} />
+                  <span className="text-[10px]">Pesquisa</span>
+                </Link>
+                <button onClick={() => { toggleCart(); setMobileOpen(false) }} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative">
+                  <ShoppingCart size={20} />
+                  {count > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
+                      {count}
+                    </span>
+                  )}
+                  <span className="text-[10px]">Carrinho</span>
+                </button>
+                <Link to="/perfil" onClick={() => setMobileOpen(false)} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors">
+                  <User size={20} />
+                  <span className="text-[10px]">Perfil</span>
+                </Link>
+              </div>
+
+              {/* Nav links */}
               {Object.keys(megaMenus).map((key) => (
                 <Link
                   key={key}
-                  to={key === 'Comprar' ? '/catalogo' : key === 'Início' ? '/' : `/catalogo?categoria=${key.toLowerCase()}`}
+                  to={key === 'Início' ? '/' : key === 'Catálogo' ? '/catalogo' : `/catalogo?categoria=${key.toLowerCase()}`}
                   className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between"
                 >
-                  {key}
+                  {key === 'Início' ? 'Catálogo' : key}
                   <ChevronRight size={16} className="text-qd-light" />
                 </Link>
               ))}
-              <div className="mt-6">
-                <button onClick={toggleCart} className="btn-primary w-full justify-center">
-                  Carrinho {count > 0 && `(${count})`}
-                </button>
-              </div>
+              <Link
+                to="/catalogo"
+                onClick={() => setMobileOpen(false)}
+                className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between"
+              >
+                Ver Catálogo Completo
+                <ChevronRight size={16} className="text-qd-light" />
+              </Link>
             </div>
           </motion.div>
         )}

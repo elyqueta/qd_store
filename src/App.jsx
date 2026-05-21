@@ -10,6 +10,7 @@ const HomePage = lazy(() => import('@/pages/HomePage'))
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
 const ProductPage = lazy(() => import('@/pages/ProductPage'))
 const CheckoutPage = lazy(() => import('@/pages/CheckoutPage'))
+const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 
 function PageLoader() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
               <Route path="/" element={<><ScrollToTop /><HomePage /></>} />
               <Route path="/catalogo" element={<><ScrollToTop /><CatalogPage /></>} />
               <Route path="/produto/:id" element={<><ScrollToTop /><ProductPage /></>} />
+              <Route path="/perfil" element={<><ScrollToTop /><ProfilePage /></>} />
               <Route path="/checkout/dados" element={<><ScrollToTop /><CheckoutPage /></>} />
               <Route path="/checkout/*" element={<><ScrollToTop /><CheckoutPage /></>} />
               <Route path="*" element={

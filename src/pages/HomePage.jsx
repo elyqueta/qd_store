@@ -19,7 +19,6 @@ function TeslaSection({ title, subtitle, cta, ctaLink, ctaSecondary, ctaSecondar
         }
       </div>
 
-      {/* Top: model name only */}
       <div className="tesla-section-top px-6 w-full text-center">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
@@ -43,7 +42,6 @@ function TeslaSection({ title, subtitle, cta, ctaLink, ctaSecondary, ctaSecondar
         </motion.div>
       </div>
 
-      {/* Bottom: CTAs */}
       <div className="tesla-section-bottom px-6">
         <motion.div
           initial={{ opacity: 0, y: 8 }}
@@ -133,6 +131,54 @@ export default function HomePage() {
         ctaSecondary="Explorar"
         ctaSecondaryLink="/produto/macbook-pro-16-m3"
         bg="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1920&q=90"
+        dark={false}
+      />
+
+      {/* ── COMPUTADORES ── */}
+      <section className="py-20 max-w-[1200px] mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <p className="section-label mb-2">🖥️ Computadores</p>
+          <h2 className="text-3xl md:text-[2.2rem] font-medium text-qd-dark tracking-tight">
+            Potência para o teu trabalho
+          </h2>
+        </motion.div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {products.filter(p => p.category === 'computadores').map((p, i) => (
+            <ProductCard key={p.id} product={p} index={i} />
+          ))}
+        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="text-center mt-10"
+        >
+          <Link
+            to="/catalogo?categoria=computadores"
+            className="inline-flex items-center gap-1.5 text-qd-accent text-sm font-medium group hover:gap-2.5 transition-all duration-200"
+          >
+            Ver todos os computadores
+            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </motion.div>
+      </section>
+
+      <TeslaSection
+        label="Desktop Premium"
+        title="iMac 24 M3"
+        subtitle="Ecrã 4.5K Retina. Design que define um espaço."
+        cta="Comprar"
+        ctaLink="/produto/imac-24-m3"
+        ctaSecondary="Saiba mais"
+        ctaSecondaryLink="/produto/imac-24-m3"
+        bg="https://images.unsplash.com/photo-1547082299-de196ea013d6?w=1920&q=90"
         dark={false}
       />
 

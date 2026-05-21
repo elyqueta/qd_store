@@ -13,6 +13,7 @@ export default function Footer() {
                 ['/catalogo', 'Catálogo'],
                 ['/catalogo?categoria=smartphones', 'Smartphones'],
                 ['/catalogo?categoria=portateis', 'Portáteis'],
+                ['/catalogo?categoria=computadores', 'Computadores'],
                 ['/catalogo?categoria=audio', 'Áudio'],
                 ['/catalogo?categoria=gaming', 'Gaming'],
               ].map(([to, label]) => (
@@ -42,17 +43,21 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li>Luanda, Angola</li>
               <li>Tecnologia premium</li>
+              <li><Link to="/perfil" className="hover:text-white transition-colors">Minha Conta</Link></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px]">
           <p className="text-white/30">© 2026 QD · ItSOLUTIONS. Todos os direitos reservados.</p>
-          <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 bg-white flex items-center justify-center">
-              <span className="text-black font-bold text-[10px]">Q</span>
-            </div>
-            <span className="text-white/40">QD · ItSOLUTIONS</span>
-          </div>
+          {/* Logo — click goes to home */}
+          <Link to="/" className="flex items-center">
+            <img
+              src="./public/favicon.webp"
+              alt="QD · ItSOLUTIONS"
+              className="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              style={{ maxWidth: '110px'}}
+            />
+          </Link>
         </div>
       </div>
     </footer>
