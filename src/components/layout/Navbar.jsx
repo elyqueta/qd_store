@@ -105,13 +105,13 @@ export default function Navbar() {
             <img
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
-              className="h-8 w-auto object-contain"
-              style={{ maxWidth: '120px' }}
+              className="h-29 w-auto object-contain"
+              style={{ maxWidth: '190px' }}
             />
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden md:flex items-center gap-0">
+          <div className="hidden min-[1142px]:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
               <div
                 key={key}
@@ -121,7 +121,7 @@ export default function Navbar() {
               >
                 <Link
                   to={key === 'Início' ? '/' : `/catalogo?categoria=${key.toLowerCase()}`}
-                  className={`px-4 py-1.5 text-xs font-medium transition-colors duration-200 ${textColor} ${textHover}`}
+                  className={`px-4 py-1.5 text-base font-medium transition-colors duration-200 ${textColor} ${textHover}`}
                 >
                   {key}
                 </Link>
@@ -132,12 +132,12 @@ export default function Navbar() {
           {/* Right actions — desktop: Search, Cart, Profile */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <Link to="/catalogo" className={`hidden md:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
-              <Search size={16} />
+            <Link to="/catalogo" className={`hidden min-[1142px]:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
+              <Search size={25} />
             </Link>
             {/* Cart */}
             <button onClick={toggleCart} className={`relative transition-colors ${cartColor}`} aria-label="Carrinho">
-              <ShoppingCart size={16} />
+              <ShoppingCart size={25} />
               {count > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
                   {count}
@@ -145,8 +145,8 @@ export default function Navbar() {
               )}
             </button>
             {/* Profile */}
-            <Link to="/perfil" className={`hidden md:flex transition-colors ${cartColor}`} aria-label="Perfil">
-              <User size={16} />
+            <Link to="/perfil" className={`hidden min-[1142px]:flex transition-colors ${cartColor}`} aria-label="Perfil">
+              <User size={25} />
             </Link>
 
             {/* Mobile hamburger */}

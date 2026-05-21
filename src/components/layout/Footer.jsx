@@ -54,8 +54,8 @@ export default function Footer() {
             <img
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
-              className="h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-              style={{ maxWidth: '110px'}}
+              className="h-30 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              style={{ maxWidth: '190px'}}
             />
           </Link>
         </div>
