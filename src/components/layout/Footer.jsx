@@ -26,8 +26,8 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><a href="https://wa.me/244923000000" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">WhatsApp</a></li>
               <li>+244 923 000 000</li>
-              <li>Entrega em 18 províncias</li>
-              <li>Garantia 12 meses</li>
+              <li>Entrega em 21 províncias</li>
+              <li>Garantia 3 meses</li>
             </ul>
           </div>
           <div>
@@ -55,7 +55,7 @@ export default function Footer() {
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
               className="h-30 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-              style={{ maxWidth: '190px'}}
+              style={{ maxWidth: '480px'}}
             />
           </Link>
         </div>

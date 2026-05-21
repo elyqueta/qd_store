@@ -13,7 +13,7 @@
     --qd-light: #aeaeb2;
     --qd-border: #d2d2d7;
     --qd-accent: #0071e3;
-    --nav-height: 78px;
+    --nav-height: 80px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -105,7 +105,7 @@
 
 /* Nav glassmorphism */
 .nav-glass {
-  background: rgba(242, 242, 242, 0.8);
+  background: rgba(129, 127, 127, 0.8);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
