@@ -12,10 +12,11 @@ export default function Footer() {
               {[
                 ['/catalogo', 'Catálogo'],
                 ['/catalogo?categoria=smartphones', 'Smartphones'],
-                ['/catalogo?categoria=portateis', 'Portáteis'],
-                ['/catalogo?categoria=computadores', 'Computadores'],
-                ['/catalogo?categoria=audio', 'Áudio'],
+                ['/catalogo?categoria=laptops', 'Laptops'],
+                ['/catalogo?categoria=desktops', 'Desktops'],
+                ['/catalogo?categoria=som', 'Som'],
                 ['/catalogo?categoria=gaming', 'Gaming'],
+                ['/catalogo?categoria=extra', 'Extra'],
               ].map(([to, label]) => (
                 <li key={to}><Link to={to} className="hover:text-white transition-colors">{label}</Link></li>
               ))}
@@ -55,7 +56,7 @@ export default function Footer() {
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
               className="h-30 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-              style={{ maxWidth: '480px'}}
+              style={{ maxWidth: '220px'}}
             />
           </Link>
         </div>

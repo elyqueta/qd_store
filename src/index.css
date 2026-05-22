@@ -13,7 +13,7 @@
     --qd-light: #aeaeb2;
     --qd-border: #d2d2d7;
     --qd-accent: #0071e3;
-    --nav-height: 80px;
+    --nav-height: 70px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,6 +22,7 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    justify-content: space-around;
   }
 
   body {

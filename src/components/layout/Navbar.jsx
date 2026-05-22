@@ -14,29 +14,29 @@ const megaMenus = {
     ],
     cta: { label: 'Ver todos os Smartphones', to: '/catalogo?categoria=smartphones' },
   },
-  Portáteis: {
+  Laptops: {
     items: [
       { label: 'MacBook Pro M3 Max', sub: '16" · Até 22h bateria', to: '/produto/macbook-pro-16-m3', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200&q=80' },
       { label: 'Dell XPS 15 OLED', sub: 'RTX 4070 · 3.5K OLED', to: '/produto/dell-xps-15', img: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=200&q=80' },
       { label: 'ASUS ROG Zephyrus', sub: 'RTX 4090 · 240Hz', to: '/produto/asus-rog-zephyrus', img: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=200&q=80' },
     ],
-    cta: { label: 'Ver todos os Portáteis', to: '/catalogo?categoria=portateis' },
+    cta: { label: 'Ver todos os Laptops', to: '/catalogo?categoria=laptops' },
   },
-  Computadores: {
+  Desktops: {
     items: [
       { label: 'iMac 24" M3', sub: '4.5K Retina · Chip M3', to: '/produto/imac-24-m3', img: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?w=200&q=80' },
       { label: 'Mac Mini M2 Pro', sub: 'Compacto · Ultra-rápido', to: '/produto/mac-mini-m2-pro', img: 'https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=200&q=80' },
       { label: 'Dell XPS 8960 Tower', sub: 'i9 · RTX 4070', to: '/produto/dell-xps-tower', img: 'https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&q=80' },
     ],
-    cta: { label: 'Ver todos os Computadores', to: '/catalogo?categoria=computadores' },
+    cta: { label: 'Ver todos os Desktops', to: '/catalogo?categoria=desktops' },
   },
-  Áudio: {
+  Som: {
     items: [
       { label: 'Sony WH-1000XM5', sub: 'Melhor ANC do mundo', to: '/produto/sony-wh1000xm5', img: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=200&q=80' },
       { label: 'AirPods Pro 2', sub: 'Chip H2 · ANC adaptativo', to: '/produto/airpods-pro-2', img: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200&q=80' },
       { label: 'Bose QC45', sub: 'Conforto lendário', to: '/produto/bose-qc45', img: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=200&q=80' },
     ],
-    cta: { label: 'Ver todo o Áudio', to: '/catalogo?categoria=audio' },
+    cta: { label: 'Ver todo o Som', to: '/catalogo?categoria=som'},
   },
   Gaming: {
     items: [
@@ -46,12 +46,12 @@ const megaMenus = {
     ],
     cta: { label: 'Ver todo o Gaming', to: '/catalogo?categoria=gaming' },
   },
-  Acessórios: {
+  Extra: {
     items: [
       { label: 'Apple Watch Ultra 2', sub: 'Titânio · GPS dual', to: '/produto/apple-watch-ultra-2', img: 'https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=200&q=80' },
       { label: 'iPad Pro M4', sub: '13" OLED · 5.1mm', to: '/produto/ipad-pro-m4', img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=200&q=80' },
     ],
-    cta: { label: 'Ver todos os Acessórios', to: '/catalogo?categoria=acessorios' },
+    cta: { label: 'Ver todos os Extra', to: '/catalogo?categoria=extra' },
   },
 }
 
@@ -98,20 +98,20 @@ export default function Navbar() {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navStyle}`}
         style={{ height: 'var(--nav-height)' }}>
-        <div className="max-w-[1200px] mx-auto px-0 h-full flex items-center justify-between">
+        <div className="max-w-[100%] mx-auto px-0 h-full flex items-center justify-around">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+          <Link to="/">
             <img
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
-              className="h-58 w-auto object-contain"
-              style={{ maxWidth: '380px' }}
+              className="h-20 w-40 md:w-auto md:h-20 lg:w-auto lg:h-50 object-contain"
+              style={{ maxWidth: '280px', }}
             />
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden min-[1142px]:flex items-center gap-0">
+          <div className="hidden min-[1000px]:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
               <div
                 key={key}
@@ -132,12 +132,12 @@ export default function Navbar() {
           {/* Right actions — desktop: Search, Cart, Profile */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <Link to="/catalogo" className={`hidden min-[1142px]:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
-              <Search size={22} />
+            <Link to="/catalogo" className={`hidden min-[770px]:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
+              <Search size={20} />
             </Link>
             {/* Cart */}
-            <button onClick={toggleCart} className={`relative transition-colors ${cartColor}`} aria-label="Carrinho">
-              <ShoppingCart size={22} />
+            <button onClick={toggleCart} className={`relativex transition-colors ${cartColor}`} aria-label="Carrinho">
+              <ShoppingCart size={25} />
               {count > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
                   {count}
@@ -145,14 +145,15 @@ export default function Navbar() {
               )}
             </button>
             {/* Profile */}
-            <Link to="/perfil" className={`hidden min-[1142px]:flex transition-colors ${cartColor}`} aria-label="Perfil">
-              <User size={22} />
+            <Link to="/perfil" className={`hidden min-[770px]:flex transition-colors ${cartColor}`} aria-label="Perfil">
+              <User size={20} />
             </Link>
 
             {/* Mobile hamburger */}
+            
             <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen
-                ? <X size={18} className={textColor} />
+                ? <X size={20} className={textColor} />
                 : <div className="flex flex-col gap-1">
                     <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />
                     <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />

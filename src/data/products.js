@@ -1,10 +1,10 @@
 export const categories = [
   { id: 'smartphones', label: 'Smartphones', icon: '📱' },
-  { id: 'Laptops', label: 'Laptops', icon: '💻' },
-  { id: 'Desktops', label: 'Desktops', icon: '🖥️' },
-  { id: 'audio', label: 'Áudio', icon: '🎧' },
+  { id: 'laptops', label: 'Laptops', icon: '💻' },
+  { id: 'desktops', label: 'Desktops', icon: '🖥️' },
+  { id: 'som', label: 'Som', icon: '🎧' },
   { id: 'gaming', label: 'Gaming', icon: '🎮' },
-  { id: 'acessorios', label: 'Acessórios', icon: '⚡' },
+  { id: 'extra', label: 'Extra', icon: '⚡' },
 ]
 
 export const products = [
@@ -84,7 +84,7 @@ export const products = [
   {
     id: 'macbook-pro-16-m3',
     name: 'MacBook Pro 16" M3 Max',
-    category: 'Laptops',
+    category: 'laptops',
     price: 1850000,
     priceFormatted: '1.850.000 Kz',
     badge: 'Premium',
@@ -107,7 +107,7 @@ export const products = [
   {
     id: 'dell-xps-15',
     name: 'Dell XPS 15 OLED',
-    category: 'Laptops',
+    category: 'laptops',
     price: 1250000,
     priceFormatted: '1.250.000 Kz',
     badge: 'Mais Vendido',
@@ -129,7 +129,7 @@ export const products = [
   {
     id: 'asus-rog-zephyrus',
     name: 'ASUS ROG Zephyrus G16',
-    category: 'Laptops',
+    category: 'laptops',
     price: 1480000,
     priceFormatted: '1.480.000 Kz',
     badge: 'Gaming',
@@ -153,7 +153,7 @@ export const products = [
   {
     id: 'imac-24-m3',
     name: 'iMac 24" M3',
-    category: 'Desktops',
+    category: 'desktops',
     price: 1680000,
     priceFormatted: '1.680.000 Kz',
     badge: 'Novo',
@@ -176,7 +176,7 @@ export const products = [
   {
     id: 'dell-xps-tower',
     name: 'Dell XPS 8960 Tower',
-    category: 'Desktops',
+    category: 'desktops',
     price: 1120000,
     priceFormatted: '1.120.000 Kz',
     badge: 'Performance',
@@ -197,7 +197,7 @@ export const products = [
   {
     id: 'asus-rog-strix-Desktops',
     name: 'ASUS ROG Strix G35',
-    category: 'Desktops',
+    category: 'desktops',
     price: 1380000,
     priceFormatted: '1.380.000 Kz',
     badge: 'Gaming',
@@ -218,7 +218,7 @@ export const products = [
   {
     id: 'mac-mini-m2-pro',
     name: 'Mac Mini M2 Pro',
-    category: 'Desktops',
+    category: 'desktops',
     price: 920000,
     priceFormatted: '920.000 Kz',
     badge: 'Compacto',
@@ -241,7 +241,7 @@ export const products = [
   {
     id: 'sony-wh1000xm5',
     name: 'Sony WH-1000XM5',
-    category: 'audio',
+    category: 'som',
     price: 185000,
     priceFormatted: '185.000 Kz',
     badge: 'Melhor ANC',
@@ -264,7 +264,7 @@ export const products = [
   {
     id: 'airpods-pro-2',
     name: 'AirPods Pro 2ª Geração',
-    category: 'audio',
+    category: 'som',
     price: 145000,
     priceFormatted: '145.000 Kz',
     badge: 'Apple',
@@ -285,7 +285,7 @@ export const products = [
   {
     id: 'bose-qc45',
     name: 'Bose QuietComfort 45',
-    category: 'audio',
+    category: 'som',
     price: 165000,
     priceFormatted: '165.000 Kz',
     badge: 'Conforto',
@@ -312,7 +312,7 @@ export const products = [
     price: 680000,
     priceFormatted: '680.000 Kz',
     badge: 'Exclusivo',
-    description: 'A nova geração de gaming em design mais compacto. SSD ultrarrápido, ray tracing nativo e áudio 3D Tempest para imersão total.',
+    description: 'A nova geração de gaming em design mais compacto. SSD ultrarrápido, ray tracing nativo e som 3D Tempest para imersão total.',
     specs: {
       'CPU': 'AMD Zen 2, 3.5GHz',
       'GPU': 'AMD RDNA 2, 10.3 TFLOPS',
@@ -370,11 +370,11 @@ export const products = [
     featured: false,
   },
 
-  // Acessórios
+  // Extra
   {
     id: 'apple-watch-ultra-2',
     name: 'Apple Watch Ultra 2',
-    category: 'acessorios',
+    category: 'extra',
     price: 380000,
     priceFormatted: '380.000 Kz',
     badge: 'Topo de Gama',
@@ -395,7 +395,7 @@ export const products = [
   {
     id: 'ipad-pro-m4',
     name: 'iPad Pro 13" M4',
-    category: 'acessorios',
+    category: 'extra',
     price: 920000,
     priceFormatted: '920.000 Kz',
     badge: 'Novo',

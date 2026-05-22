@@ -243,7 +243,7 @@ export default function HomePage() {
           </h2>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.filter(p => p.category === 'acessorios').map((p, i) => (
+          {products.filter(p => p.category === 'extra').map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}
         </div>
