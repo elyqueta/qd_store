@@ -1,3 +1,9 @@
+/**
+ * App.jsx — QD · ItSOLUTIONS
+ *
+ * Preloader aparece APENAS na primeira visita (homepage).
+ * Sem preloader em mudanças de rota — navegação instantânea.
+ */
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from '@/contexts/CartContext'
@@ -5,20 +11,17 @@ import { PreloaderProvider } from '@/contexts/PreloaderContext'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import CartDrawer from '@/components/cart/CartDrawer'
-import Preloader from '@/components/layout/Preloader'
-import RouteTransitionListener from '@/components/layout/RouteTransitionListener'
+import Preloader from '@/components/ui/Preloader'
 
-// Lazy loading das páginas
-const HomePage = lazy(() => import('@/pages/HomePage'))
+/* Lazy loading das páginas */
+const HomePage    = lazy(() => import('@/pages/HomePage'))
 const CatalogPage = lazy(() => import('@/pages/CatalogPage'))
 const ProductPage = lazy(() => import('@/pages/ProductPage'))
-const CheckoutPage = lazy(() => import('@/pages/CheckoutPage'))
+const CheckoutPage= lazy(() => import('@/pages/CheckoutPage'))
 const ProfilePage = lazy(() => import('@/pages/ProfilePage'))
 
 function ScrollToTop() {
-  React.useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  React.useEffect(() => { window.scrollTo(0, 0) }, [])
   return null
 }
 
@@ -36,22 +39,29 @@ function Layout({ children }) {
 export default function App() {
   return (
     <PreloaderProvider>
+      {/* Preloader renderiza no topo — fora do Router para não depender de rota */}
+      <Preloader />
+
       <BrowserRouter>
-        <Preloader />
-        <RouteTransitionListener />
         <CartProvider>
           <Layout>
             <Suspense fallback={null}>
               <Routes>
-                <Route path="/" element={<><ScrollToTop /><HomePage /></>} />
-                <Route path="/catalogo" element={<><ScrollToTop /><CatalogPage /></>} />
-                <Route path="/produto/:id" element={<><ScrollToTop /><ProductPage /></>} />
-                <Route path="/perfil" element={<><ScrollToTop /><ProfilePage /></>} />
-                <Route path="/checkout/dados" element={<><ScrollToTop /><CheckoutPage /></>} />
-                <Route path="/checkout/*" element={<><ScrollToTop /><CheckoutPage /></>} />
+                <Route path="/"
+                  element={<><ScrollToTop /><HomePage /></>} />
+                <Route path="/catalogo"
+                  element={<><ScrollToTop /><CatalogPage /></>} />
+                <Route path="/produto/:id"
+                  element={<><ScrollToTop /><ProductPage /></>} />
+                <Route path="/perfil"
+                  element={<><ScrollToTop /><ProfilePage /></>} />
+                <Route path="/checkout/dados"
+                  element={<><ScrollToTop /><CheckoutPage /></>} />
+                <Route path="/checkout/*"
+                  element={<><ScrollToTop /><CheckoutPage /></>} />
                 <Route path="*" element={
                   <div className="min-h-screen flex items-center justify-center flex-col gap-4">
-                    <p className="text-white/40 font-display text-4xl">404</p>
+                    <p className="text-qd-gray font-display text-4xl">404</p>
                     <a href="/" className="btn-outline">Voltar ao início</a>
                   </div>
                 } />
