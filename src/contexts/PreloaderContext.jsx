@@ -1,37 +1,25 @@
-import React, { createContext, useState, useCallback } from 'react'
+import React, { createContext, useContext, useState, useRef, useCallback } from 'react'
 
-export const PreloaderContext = createContext()
+const PreloaderContext = createContext(null)
 
 export function PreloaderProvider({ children }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isExiting, setIsExiting] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const shownRef = useRef(false)
 
-  const startLoading = useCallback(() => {
-    setIsExiting(false)
-    setIsLoading(true)
-  }, [])
-
-  const stopLoading = useCallback(() => {
-    setIsExiting(true)
-    // Aguarda a animação de saída antes de remover do DOM
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-      setIsExiting(false)
-    }, 600)
-    return () => clearTimeout(timer)
+  const hideLoader = useCallback(() => {
+    setIsVisible(false)
+    shownRef.current = true
   }, [])
 
   return (
-    <PreloaderContext.Provider value={{ isLoading, isExiting, startLoading, stopLoading }}>
+    <PreloaderContext.Provider value={{ isVisible, hideLoader }}>
       {children}
     </PreloaderContext.Provider>
   )
 }
 
 export function usePreloader() {
-  const context = React.useContext(PreloaderContext)
-  if (!context) {
-    throw new Error('usePreloader must be used within PreloaderProvider')
-  }
-  return context
+  const ctx = useContext(PreloaderContext)
+  if (!ctx) throw new Error('usePreloader must be used within PreloaderProvider')
+  return ctx
 }

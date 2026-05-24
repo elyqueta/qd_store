@@ -134,7 +134,7 @@ export default function HomePage() {
         dark={false}
       />
 
-      {/* ── COMPUTADORES ── */}
+      {/* ── Desktop ── */}
       <section className="py-20 max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -143,13 +143,13 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="section-label mb-2">🖥️ Computadores</p>
+          <p className="section-label mb-2">🖥️ Desktops</p>
           <h2 className="text-3xl md:text-[2.2rem] font-medium text-qd-dark tracking-tight">
             Potência para o teu trabalho
           </h2>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {products.filter(p => p.category === 'computadores').map((p, i) => (
+          {products.filter(p => p.category === 'desktops').map((p, i) => (
             <ProductCard key={p.id} product={p} index={i} />
           ))}
         </div>
@@ -161,10 +161,10 @@ export default function HomePage() {
           className="text-center mt-10"
         >
           <Link
-            to="/catalogo?categoria=computadores"
+            to="/catalogo?categoria=desktops"
             className="inline-flex items-center gap-1.5 text-qd-accent text-sm font-medium group hover:gap-2.5 transition-all duration-200"
           >
-            Ver todos os computadores
+            Ver todos os desktops
             <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </motion.div>
@@ -182,7 +182,7 @@ export default function HomePage() {
         dark={false}
       />
 
-      {/* ── GAMING & ÁUDIO ── */}
+      {/* ── GAMING & SOM ── */}
       <section className="py-20 max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -191,7 +191,7 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="section-label mb-2">Gaming & Áudio</p>
+          <p className="section-label mb-2">Gaming & Som</p>
           <h2 className="text-3xl md:text-[2.2rem] font-medium text-qd-dark tracking-tight">
             Experiências imersivas
           </h2>
@@ -205,7 +205,7 @@ export default function HomePage() {
       </section>
 
       <TeslaSection
-        label="Áudio"
+        label="Som"
         title="Sony WH-1000XM5"
         subtitle="O melhor ANC do mundo. 30 horas de bateria."
         cta="Comprar"
@@ -228,7 +228,7 @@ export default function HomePage() {
         dark={true}
       />
 
-      {/* ── ACESSÓRIOS ── */}
+      {/* ── EXTRA ── */}
       <section className="py-20 max-w-[1200px] mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -237,7 +237,7 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="section-label mb-2">Acessórios</p>
+          <p className="section-label mb-2">Extra</p>
           <h2 className="text-3xl md:text-[2.2rem] font-medium text-qd-dark tracking-tight">
             Completa a tua setup
           </h2>

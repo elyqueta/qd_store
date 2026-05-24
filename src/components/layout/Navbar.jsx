@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { ShoppingCart, Search, X, ChevronRight, User } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNav } from '@/hooks/useNav'
 
 const megaMenus = {
   Início: null,
@@ -36,7 +37,7 @@ const megaMenus = {
       { label: 'AirPods Pro 2', sub: 'Chip H2 · ANC adaptativo', to: '/produto/airpods-pro-2', img: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=200&q=80' },
       { label: 'Bose QC45', sub: 'Conforto lendário', to: '/produto/bose-qc45', img: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=200&q=80' },
     ],
-    cta: { label: 'Ver todo o Som', to: '/catalogo?categoria=som'},
+    cta: { label: 'Ver todo o Som', to: '/catalogo?categoria=som' },
   },
   Gaming: {
     items: [
@@ -56,12 +57,13 @@ const megaMenus = {
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled]     = useState(false)
   const [activeMenu, setActiveMenu] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { count, toggleCart } = useCart()
-  const location = useLocation()
-  const timerRef = useRef(null)
+  const { count, toggleCart }       = useCart()
+  const location                    = useLocation()
+  const { navTo }                   = useNav()
+  const timerRef                    = useRef(null)
 
   const isHero = location.pathname === '/'
 
@@ -94,23 +96,35 @@ export default function Navbar() {
   const textHover = isHero && !scrolled ? 'hover:text-white' : 'hover:text-qd-accent'
   const cartColor = isHero && !scrolled ? 'text-white/80 hover:text-white' : 'text-qd-dark/70 hover:text-qd-dark'
 
+  /* Destino de cada item do menu */
+  const menuDest = (key) => {
+    if (key === 'Início') return '/'
+    return `/catalogo?categoria=${key.toLowerCase()}`
+  }
+
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navStyle}`}
-        style={{ height: 'var(--nav-height)' }}>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navStyle}`}
+        style={{ height: 'var(--nav-height)' }}
+      >
         <div className="max-w-[100%] mx-auto px-0 h-full flex items-center justify-around">
 
-          {/* Logo */}
-          <Link to="/">
+          {/* ── Logo → sempre volta ao topo da homepage ── */}
+          <button
+            onClick={() => navTo('/')}
+            aria-label="Página inicial"
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+          >
             <img
               src="/favicon.webp"
               alt="QD · ItSOLUTIONS"
-              className="h-20 w-40 md:w-auto md:h-20 lg:w-auto lg:h-50 object-contain"
-              style={{ maxWidth: '280px', }}
+              className="h-20 w-40 md:w-auto md:h-20 object-contain"
+              style={{ maxWidth: '280px' }}
             />
-          </Link>
+          </button>
 
-          {/* Desktop nav links */}
+          {/* ── Desktop nav links ── */}
           <div className="hidden min-[1000px]:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
               <div
@@ -119,24 +133,33 @@ export default function Navbar() {
                 onMouseEnter={() => handleMouseEnter(key)}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link
-                  to={key === 'Início' ? '/' : `/catalogo?categoria=${key.toLowerCase()}`}
-                  className={`px-4 py-1.5 text-sm font-medium transition-colors duration-200 ${textColor} ${textHover}`}
+                <button
+                  onClick={() => navTo(menuDest(key))}
+                  className={`px-4 py-1.5 text-sm font-medium transition-colors duration-200 ${textColor} ${textHover} bg-transparent border-none cursor-pointer`}
                 >
                   {key}
-                </Link>
+                </button>
               </div>
             ))}
           </div>
 
-          {/* Right actions — desktop: Search, Cart, Profile */}
+          {/* ── Right actions ── */}
           <div className="flex items-center gap-4">
             {/* Search */}
-            <Link to="/catalogo" className={`hidden min-[770px]:flex transition-colors ${cartColor}`} aria-label="Pesquisar">
+            <button
+              onClick={() => navTo('/catalogo')}
+              className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
+              aria-label="Pesquisar"
+            >
               <Search size={20} />
-            </Link>
+            </button>
+
             {/* Cart */}
-            <button onClick={toggleCart} className={`relativex transition-colors ${cartColor}`} aria-label="Carrinho">
+            <button
+              onClick={toggleCart}
+              className={`relative transition-colors ${cartColor}`}
+              aria-label="Carrinho"
+            >
               <ShoppingCart size={25} />
               {count > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
@@ -144,13 +167,17 @@ export default function Navbar() {
                 </span>
               )}
             </button>
+
             {/* Profile */}
-            <Link to="/perfil" className={`hidden min-[770px]:flex transition-colors ${cartColor}`} aria-label="Perfil">
+            <button
+              onClick={() => navTo('/perfil')}
+              className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
+              aria-label="Perfil"
+            >
               <User size={20} />
-            </Link>
+            </button>
 
             {/* Mobile hamburger */}
-            
             <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen
                 ? <X size={20} className={textColor} />
@@ -163,7 +190,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mega menu dropdown */}
+        {/* ── Mega menu dropdown ── */}
         <AnimatePresence>
           {activeMenu && megaMenus[activeMenu] && (
             <motion.div
@@ -179,10 +206,10 @@ export default function Navbar() {
               <div className="max-w-[1200px] mx-auto px-6 py-8">
                 <div className="grid grid-cols-3 gap-6">
                   {megaMenus[activeMenu].items.map((item) => (
-                    <Link
+                    <button
                       key={item.to}
-                      to={item.to}
-                      className="group flex gap-4 p-3 rounded-xl hover:bg-qd-bg transition-colors"
+                      onClick={() => navTo(item.to)}
+                      className="group flex gap-4 p-3 rounded-xl hover:bg-qd-bg transition-colors text-left bg-transparent border-none cursor-pointer w-full"
                     >
                       <div className="w-16 h-16 rounded-lg overflow-hidden bg-qd-bg flex-shrink-0">
                         <img src={item.img} alt={item.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -191,17 +218,17 @@ export default function Navbar() {
                         <p className="text-qd-dark font-medium text-sm group-hover:text-qd-accent transition-colors">{item.label}</p>
                         <p className="text-qd-gray text-xs mt-0.5">{item.sub}</p>
                       </div>
-                    </Link>
+                    </button>
                   ))}
                 </div>
                 <div className="mt-6 pt-4 border-t border-qd-border">
-                  <Link
-                    to={megaMenus[activeMenu].cta.to}
-                    className="inline-flex items-center gap-1 text-qd-accent text-sm font-medium hover:gap-2 transition-all"
+                  <button
+                    onClick={() => navTo(megaMenus[activeMenu].cta.to)}
+                    className="inline-flex items-center gap-1 text-qd-accent text-sm font-medium hover:gap-2 transition-all bg-transparent border-none cursor-pointer"
                   >
                     {megaMenus[activeMenu].cta.label}
                     <ChevronRight size={14} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -209,7 +236,7 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu ── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -219,13 +246,19 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-white pt-[var(--nav-height)] overflow-y-auto"
           >
             <div className="px-6 py-8 flex flex-col gap-1">
-              {/* Mobile: Search, Cart, Profile row */}
+              {/* Mobile top row */}
               <div className="flex items-center justify-around py-4 mb-4 border-b border-qd-border">
-                <Link to="/catalogo" onClick={() => setMobileOpen(false)} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors">
+                <button
+                  onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer"
+                >
                   <Search size={20} />
                   <span className="text-[10px]">Pesquisa</span>
-                </Link>
-                <button onClick={() => { toggleCart(); setMobileOpen(false) }} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative">
+                </button>
+                <button
+                  onClick={() => { toggleCart(); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative bg-transparent border-none cursor-pointer"
+                >
                   <ShoppingCart size={20} />
                   {count > 0 && (
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
@@ -234,31 +267,35 @@ export default function Navbar() {
                   )}
                   <span className="text-[10px]">Carrinho</span>
                 </button>
-                <Link to="/perfil" onClick={() => setMobileOpen(false)} className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors">
+                <button
+                  onClick={() => { navTo('/perfil'); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer"
+                >
                   <User size={20} />
                   <span className="text-[10px]">Perfil</span>
-                </Link>
+                </button>
               </div>
 
               {/* Nav links */}
               {Object.keys(megaMenus).map((key) => (
-                <Link
+                <button
                   key={key}
-                  to={key === 'Início' ? '/' : key === 'Catálogo' ? '/catalogo' : `/catalogo?categoria=${key.toLowerCase()}`}
-                  className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between"
+                  onClick={() => { navTo(menuDest(key)); setMobileOpen(false) }}
+                  className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
+                  style={{ borderBottom: '1px solid #d2d2d7' }}
                 >
                   {key === 'Início' ? 'Catálogo' : key}
                   <ChevronRight size={16} className="text-qd-light" />
-                </Link>
+                </button>
               ))}
-              <Link
-                to="/catalogo"
-                onClick={() => setMobileOpen(false)}
-                className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between"
+              <button
+                onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
+                className="py-3 text-lg font-medium text-qd-dark flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
+                style={{ borderBottom: '1px solid #d2d2d7' }}
               >
                 Ver Catálogo Completo
                 <ChevronRight size={16} className="text-qd-light" />
-              </Link>
+              </button>
             </div>
           </motion.div>
         )}
