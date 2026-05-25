@@ -2,7 +2,9 @@
  * BuyModal.jsx — QD · ItSOLUTIONS
  * Modal ao clicar "Comprar" nas secções e na página do produto.
  * Passo 1: WhatsApp ou Site?
- * Passo 2 (Site): Pessoal ou Empresa? (NIF obrigatório se empresa)
+ * Passo 2 (Site): Pessoal ou Empresa?
+ *   - Pessoal → checkout normal /checkout/dados
+ *   - Empresa → checkout empresarial /checkout/empresa
  */
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -34,22 +36,31 @@ export default function BuyModal({ product, onClose }) {
   }
 
   const handleSiteConfirm = () => {
-    // Valida NIF se empresa
+    // Empresa — validar NIF antes de avançar
     if (tipo === 'empresa') {
       if (!nif.trim() || nif.replace(/\D/g, '').length < 9) {
         setNifError('NIF obrigatório para compras empresariais (mín. 9 dígitos)')
         return
       }
+      // Redireciona para o checkout EMPRESARIAL com contexto
+      addItem(product)
+      onClose()
+      navigate('/checkout/empresa', {
+        state: {
+          tipo: 'empresa',
+          nif,
+          empresa,
+          product,
+        }
+      })
+      return
     }
-    // Adiciona ao carrinho e vai ao checkout
+
+    // Pessoal — checkout normal
     addItem(product)
     onClose()
     navigate('/checkout/dados', {
-      state: {
-        tipo,
-        nif: tipo === 'empresa' ? nif : '',
-        empresa: tipo === 'empresa' ? empresa : '',
-      }
+      state: { tipo: 'pessoal', nif: '', empresa: '' }
     })
   }
 
@@ -196,6 +207,22 @@ export default function BuyModal({ product, onClose }) {
               {/* Campos empresa */}
               {tipo === 'empresa' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '18px' }}>
+                  {/* Banner de benefícios */}
+                  <div style={{
+                    background: 'linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%)',
+                    border: '1px solid #bfdbfe',
+                    borderRadius: '10px',
+                    padding: '10px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}>
+                    <Building2 size={14} color="#0071e3" style={{ flexShrink: 0 }} />
+                    <p style={{ fontSize: '11px', color: '#1e40af', margin: 0, lineHeight: 1.4 }}>
+                      <strong>Compra empresarial:</strong> preços especiais, fatura com NIF e gestor de conta dedicado.
+                    </p>
+                  </div>
+
                   <div>
                     <label style={{ fontSize: '12px', color: '#1c1c1e', fontWeight: 500, display: 'block', marginBottom: '5px' }}>
                       Nome da empresa
@@ -209,7 +236,7 @@ export default function BuyModal({ product, onClose }) {
                   </div>
                   <div>
                     <label style={{ fontSize: '12px', color: '#1c1c1e', fontWeight: 500, display: 'block', marginBottom: '5px' }}>
-                      NIF <span style={{ color: '#ff3b30' }}>*</span>
+                      NIF da empresa <span style={{ color: '#ff3b30' }}>*</span>
                     </label>
                     <input
                       value={nif}
@@ -223,6 +250,9 @@ export default function BuyModal({ product, onClose }) {
                       </p>
                     )}
                   </div>
+                  <p style={{ fontSize: '11px', color: '#6e6e73', margin: 0 }}>
+                    Irás preencher os dados do responsável e morada na próxima etapa.
+                  </p>
                 </div>
               )}
 
@@ -240,11 +270,16 @@ export default function BuyModal({ product, onClose }) {
                   border: 'none', borderRadius: '50px',
                   fontSize: '14px', fontWeight: 500,
                   cursor: 'pointer', transition: 'background 0.2s',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                 }}
                 onMouseEnter={e => e.currentTarget.style.background = '#0077ed'}
                 onMouseLeave={e => e.currentTarget.style.background = '#0071e3'}
               >
-                Continuar para o checkout →
+                {tipo === 'empresa' ? (
+                  <><Building2 size={15} /> Continuar checkout empresarial →</>
+                ) : (
+                  <>Continuar para o checkout →</>
+                )}
               </button>
             </>
           )}

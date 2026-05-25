@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, ShoppingCart } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -65,13 +65,16 @@ export default function ProductCard({ product, index = 0 }) {
               loading="lazy"
             />
 
-            {/* Badge desconto */}
+            {/* Badge desconto — destaque máximo */}
             {discount && (
               <div style={{
                 position: 'absolute', top: '10px', left: '10px',
-                background: '#ff3b30', color: '#fff',
-                fontSize: '11px', fontWeight: 600,
-                padding: '3px 8px', borderRadius: '8px', zIndex: 2,
+                background: 'linear-gradient(135deg, #ff3b30 0%, #e02020 100%)',
+                color: '#fff',
+                fontSize: '12px', fontWeight: 700,
+                padding: '4px 10px', borderRadius: '20px', zIndex: 2,
+                boxShadow: '0 2px 8px rgba(255,59,48,0.4)',
+                letterSpacing: '0.02em',
               }}>
                 -{discount}%
               </div>
@@ -79,7 +82,8 @@ export default function ProductCard({ product, index = 0 }) {
 
             {/* Badge produto (sem desconto) */}
             {product.badge && !discount && (
-              <div className="absolute top-3 left-3 bg-qd-accent text-white text-[10px] font-medium px-2.5 py-1 rounded-full">
+              <div className="absolute top-3 left-3 bg-qd-accent text-white text-[10px] font-medium px-2.5 py-1 rounded-full"
+                style={{ boxShadow: '0 2px 8px rgba(0,113,227,0.3)' }}>
                 {product.badge}
               </div>
             )}
@@ -139,14 +143,34 @@ export default function ProductCard({ product, index = 0 }) {
             <h3 className="text-qd-dark font-medium text-sm leading-snug mb-2 group-hover:text-qd-accent transition-colors duration-200">
               {product.name}
             </h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <p className="text-qd-dark font-semibold text-base">{formatPrice(product.price)}</p>
+
+            {/* Preço — destaque com riscado se tiver desconto */}
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
+              <p style={{
+                fontSize: '18px', fontWeight: 700, color: discount ? '#e02020' : '#1c1c1e',
+                lineHeight: 1,
+              }}>
+                {formatPrice(product.price)}
+              </p>
               {product.originalPrice && (
-                <p style={{ fontSize: '12px', color: '#aeaeb2', textDecoration: 'line-through' }}>
+                <p style={{
+                  fontSize: '13px', color: '#aeaeb2',
+                  textDecoration: 'line-through', lineHeight: 1,
+                }}>
                   {formatPrice(product.originalPrice)}
                 </p>
               )}
             </div>
+
+            {/* Economia em valor absoluto */}
+            {discount && product.originalPrice && (
+              <p style={{
+                fontSize: '11px', color: '#16a34a', fontWeight: 500,
+                marginTop: '3px',
+              }}>
+                Poupas {formatPrice(product.originalPrice - product.price)}
+              </p>
+            )}
           </div>
         </Link>
       </div>

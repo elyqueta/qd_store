@@ -54,7 +54,7 @@ const megaMenus = {
     ],
     cta: { label: 'Ver todos os Extra', to: '/catalogo?categoria=extra' },
   },
-  Empresas: null, // link direto, sem mega menu
+  Empresas: null,
 }
 
 export default function Navbar() {
@@ -118,8 +118,8 @@ export default function Navbar() {
               className="h-20 w-40 md:w-auto md:h-20 object-contain" style={{ maxWidth: '280px' }} />
           </button>
 
-          {/* Desktop links */}
-          <div className="hidden min-[1080px]:flex items-center gap-0">
+          {/* Desktop links — visíveis acima de 1080px */}
+          <div className="hidden min-[1130px]:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
               <div key={key} className="relative"
                 onMouseEnter={() => handleMouseEnter(key)}
@@ -138,14 +138,17 @@ export default function Navbar() {
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+
+            {/* Pesquisa — desktop */}
             <button onClick={() => navTo('/catalogo')}
               className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
               aria-label="Pesquisar">
               <Search size={20} />
             </button>
 
-            <button onClick={toggleCart} className={`relative transition-colors ${cartColor}`} aria-label="Carrinho">
+            {/* Carrinho — sempre visível */}
+            <button onClick={toggleCart} className={`relative transition-colors ${cartColor} bg-transparent border-none cursor-pointer`} aria-label="Carrinho">
               <ShoppingCart size={25} />
               {count > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
@@ -154,17 +157,28 @@ export default function Navbar() {
               )}
             </button>
 
+            {/* Perfil — desktop */}
             <button onClick={() => navTo('/perfil')}
               className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
               aria-label="Perfil">
-              <User size={20} />
+              <User size={25} />
             </button>
 
-            {/* Mobile hamburger */}
-            <button className="md:hidden" onClick={() => setMobileOpen(!mobileOpen)}>
+            {/* Empresas — SEMPRE visível em TODOS os tamanhos (novo ícone) */}
+            <button
+              onClick={() => navTo('/empresas')}
+              className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
+              aria-label="Empresas"
+              title="Soluções Empresariais"
+            >
+              <Building2 size={20} />
+            </button>
+
+            {/* Mobile hamburger — abaixo de 770px */}
+            <button className="flex min-[770px]:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
               {mobileOpen
-                ? <X size={20} className={textColor} />
-                : <div className="flex flex-col gap-1">
+                ? <X size={22} className={textColor} />
+                : <div className="flex flex-col gap-1.5">
                     <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />
                     <div className={`w-5 h-px ${isHero && !scrolled ? 'bg-white' : 'bg-qd-dark'}`} />
                   </div>
@@ -213,20 +227,22 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — drawer completo abaixo de 770px */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 bg-white pt-[var(--nav-height)] overflow-y-auto">
             <div className="px-6 py-8 flex flex-col gap-1">
+
+              {/* Quick action icons no topo do drawer */}
               <div className="flex items-center justify-around py-4 mb-4 border-b border-qd-border">
                 <button onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
                   className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer">
-                  <Search size={20} /><span className="text-[10px]">Pesquisa</span>
+                  <Search size={22} /><span className="text-[10px]">Pesquisa</span>
                 </button>
                 <button onClick={() => { toggleCart(); setMobileOpen(false) }}
                   className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative bg-transparent border-none cursor-pointer">
-                  <ShoppingCart size={20} />
+                  <ShoppingCart size={22} />
                   {count > 0 && (
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">{count}</span>
                   )}
@@ -234,10 +250,16 @@ export default function Navbar() {
                 </button>
                 <button onClick={() => { navTo('/perfil'); setMobileOpen(false) }}
                   className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer">
-                  <User size={20} /><span className="text-[10px]">Perfil</span>
+                  <User size={22} /><span className="text-[10px]">Perfil</span>
+                </button>
+                {/* Ícone de Empresas no mobile drawer */}
+                <button onClick={() => { navTo('/empresas'); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-accent hover:text-qd-accent-hover transition-colors bg-transparent border-none cursor-pointer">
+                  <Building2 size={22} /><span className="text-[10px] font-medium">Empresas</span>
                 </button>
               </div>
 
+              {/* Links do menu */}
               {Object.keys(megaMenus).map((key) => (
                 <button key={key} onClick={() => { navTo(menuDest(key)); setMobileOpen(false) }}
                   className="py-3 text-lg font-medium text-qd-dark flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
