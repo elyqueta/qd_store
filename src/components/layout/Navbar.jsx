@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ShoppingCart, Search, X, ChevronRight, User } from 'lucide-react'
+import { ShoppingCart, Search, X, ChevronRight, User, Building2 } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNav } from '@/hooks/useNav'
@@ -54,6 +54,7 @@ const megaMenus = {
     ],
     cta: { label: 'Ver todos os Extra', to: '/catalogo?categoria=extra' },
   },
+  Empresas: null, // link direto, sem mega menu
 }
 
 export default function Navbar() {
@@ -96,9 +97,9 @@ export default function Navbar() {
   const textHover = isHero && !scrolled ? 'hover:text-white' : 'hover:text-qd-accent'
   const cartColor = isHero && !scrolled ? 'text-white/80 hover:text-white' : 'text-qd-dark/70 hover:text-qd-dark'
 
-  /* Destino de cada item do menu */
   const menuDest = (key) => {
     if (key === 'Início') return '/'
+    if (key === 'Empresas') return '/empresas'
     return `/catalogo?categoria=${key.toLowerCase()}`
   }
 
@@ -110,56 +111,41 @@ export default function Navbar() {
       >
         <div className="max-w-[100%] mx-auto px-0 h-full flex items-center justify-around">
 
-          {/* ── Logo → sempre volta ao topo da homepage ── */}
-          <button
-            onClick={() => navTo('/')}
-            aria-label="Página inicial"
-            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-          >
-            <img
-              src="/favicon.webp"
-              alt="QD · ItSOLUTIONS"
-              className="h-20 w-40 md:w-auto md:h-20 object-contain"
-              style={{ maxWidth: '280px' }}
-            />
+          {/* Logo */}
+          <button onClick={() => navTo('/')} aria-label="Página inicial"
+            style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
+            <img src="/favicon.webp" alt="QD · ItSOLUTIONS"
+              className="h-20 w-40 md:w-auto md:h-20 object-contain" style={{ maxWidth: '280px' }} />
           </button>
 
-          {/* ── Desktop nav links ── */}
-          <div className="hidden min-[1000px]:flex items-center gap-0">
+          {/* Desktop links */}
+          <div className="hidden min-[1080px]:flex items-center gap-0">
             {Object.keys(megaMenus).map((key) => (
-              <div
-                key={key}
-                className="relative"
+              <div key={key} className="relative"
                 onMouseEnter={() => handleMouseEnter(key)}
                 onMouseLeave={handleMouseLeave}
               >
                 <button
                   onClick={() => navTo(menuDest(key))}
                   className={`px-4 py-1.5 text-sm font-medium transition-colors duration-200 ${textColor} ${textHover} bg-transparent border-none cursor-pointer`}
+                  style={key === 'Empresas' ? { display: 'flex', alignItems: 'center', gap: '4px' } : {}}
                 >
+                  {key === 'Empresas' && <Building2 size={13} />}
                   {key}
                 </button>
               </div>
             ))}
           </div>
 
-          {/* ── Right actions ── */}
+          {/* Right actions */}
           <div className="flex items-center gap-4">
-            {/* Search */}
-            <button
-              onClick={() => navTo('/catalogo')}
+            <button onClick={() => navTo('/catalogo')}
               className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
-              aria-label="Pesquisar"
-            >
+              aria-label="Pesquisar">
               <Search size={20} />
             </button>
 
-            {/* Cart */}
-            <button
-              onClick={toggleCart}
-              className={`relative transition-colors ${cartColor}`}
-              aria-label="Carrinho"
-            >
+            <button onClick={toggleCart} className={`relative transition-colors ${cartColor}`} aria-label="Carrinho">
               <ShoppingCart size={25} />
               {count > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
@@ -168,12 +154,9 @@ export default function Navbar() {
               )}
             </button>
 
-            {/* Profile */}
-            <button
-              onClick={() => navTo('/perfil')}
+            <button onClick={() => navTo('/perfil')}
               className={`hidden min-[770px]:flex transition-colors ${cartColor} bg-transparent border-none cursor-pointer`}
-              aria-label="Perfil"
-            >
+              aria-label="Perfil">
               <User size={20} />
             </button>
 
@@ -190,11 +173,10 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mega menu dropdown ── */}
+        {/* Mega menu dropdown */}
         <AnimatePresence>
           {activeMenu && megaMenus[activeMenu] && (
-            <motion.div
-              key={activeMenu}
+            <motion.div key={activeMenu}
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
@@ -206,11 +188,8 @@ export default function Navbar() {
               <div className="max-w-[1200px] mx-auto px-6 py-8">
                 <div className="grid grid-cols-3 gap-6">
                   {megaMenus[activeMenu].items.map((item) => (
-                    <button
-                      key={item.to}
-                      onClick={() => navTo(item.to)}
-                      className="group flex gap-4 p-3 rounded-xl hover:bg-qd-bg transition-colors text-left bg-transparent border-none cursor-pointer w-full"
-                    >
+                    <button key={item.to} onClick={() => navTo(item.to)}
+                      className="group flex gap-4 p-3 rounded-xl hover:bg-qd-bg transition-colors text-left bg-transparent border-none cursor-pointer w-full">
                       <div className="w-16 h-16 rounded-lg overflow-hidden bg-qd-bg flex-shrink-0">
                         <img src={item.img} alt={item.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                       </div>
@@ -222,10 +201,8 @@ export default function Navbar() {
                   ))}
                 </div>
                 <div className="mt-6 pt-4 border-t border-qd-border">
-                  <button
-                    onClick={() => navTo(megaMenus[activeMenu].cta.to)}
-                    className="inline-flex items-center gap-1 text-qd-accent text-sm font-medium hover:gap-2 transition-all bg-transparent border-none cursor-pointer"
-                  >
+                  <button onClick={() => navTo(megaMenus[activeMenu].cta.to)}
+                    className="inline-flex items-center gap-1 text-qd-accent text-sm font-medium hover:gap-2 transition-all bg-transparent border-none cursor-pointer">
                     {megaMenus[activeMenu].cta.label}
                     <ChevronRight size={14} />
                   </button>
@@ -236,66 +213,42 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
 
-      {/* ── Mobile menu ── */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-white pt-[var(--nav-height)] overflow-y-auto"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-white pt-[var(--nav-height)] overflow-y-auto">
             <div className="px-6 py-8 flex flex-col gap-1">
-              {/* Mobile top row */}
               <div className="flex items-center justify-around py-4 mb-4 border-b border-qd-border">
-                <button
-                  onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
-                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer"
-                >
-                  <Search size={20} />
-                  <span className="text-[10px]">Pesquisa</span>
+                <button onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer">
+                  <Search size={20} /><span className="text-[10px]">Pesquisa</span>
                 </button>
-                <button
-                  onClick={() => { toggleCart(); setMobileOpen(false) }}
-                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative bg-transparent border-none cursor-pointer"
-                >
+                <button onClick={() => { toggleCart(); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors relative bg-transparent border-none cursor-pointer">
                   <ShoppingCart size={20} />
                   {count > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">
-                      {count}
-                    </span>
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-qd-accent text-white text-[9px] font-bold flex items-center justify-center rounded-full">{count}</span>
                   )}
                   <span className="text-[10px]">Carrinho</span>
                 </button>
-                <button
-                  onClick={() => { navTo('/perfil'); setMobileOpen(false) }}
-                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer"
-                >
-                  <User size={20} />
-                  <span className="text-[10px]">Perfil</span>
+                <button onClick={() => { navTo('/perfil'); setMobileOpen(false) }}
+                  className="flex flex-col items-center gap-1 text-qd-gray hover:text-qd-accent transition-colors bg-transparent border-none cursor-pointer">
+                  <User size={20} /><span className="text-[10px]">Perfil</span>
                 </button>
               </div>
 
-              {/* Nav links */}
               {Object.keys(megaMenus).map((key) => (
-                <button
-                  key={key}
-                  onClick={() => { navTo(menuDest(key)); setMobileOpen(false) }}
-                  className="py-3 text-lg font-medium text-qd-dark border-b border-qd-border flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
-                  style={{ borderBottom: '1px solid #d2d2d7' }}
-                >
-                  {key === 'Início' ? 'Catálogo' : key}
+                <button key={key} onClick={() => { navTo(menuDest(key)); setMobileOpen(false) }}
+                  className="py-3 text-lg font-medium text-qd-dark flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
+                  style={{ borderBottom: '1px solid #d2d2d7' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {key === 'Empresas' && <Building2 size={16} color="#0071e3" />}
+                    {key === 'Início' ? 'Catálogo' : key}
+                  </span>
                   <ChevronRight size={16} className="text-qd-light" />
                 </button>
               ))}
-              <button
-                onClick={() => { navTo('/catalogo'); setMobileOpen(false) }}
-                className="py-3 text-lg font-medium text-qd-dark flex items-center justify-between bg-transparent border-none cursor-pointer w-full text-left"
-                style={{ borderBottom: '1px solid #d2d2d7' }}
-              >
-                Ver Catálogo Completo
-                <ChevronRight size={16} className="text-qd-light" />
-              </button>
             </div>
           </motion.div>
         )}

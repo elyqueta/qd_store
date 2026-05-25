@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ChevronRight, ShoppingCart, Check, MessageCircle } from 'lucide-react'
+import { ChevronRight, Heart, Share2, Check } from 'lucide-react'
 import { products, categories } from '@/data/products'
-import { useCart } from '@/contexts/CartContext'
+import { useWishlist } from '@/contexts/WishlistContext'
+import { useNotification } from '@/contexts/NotificationContext'
 import { formatPrice } from '@/utils/format'
 import ProductCard from '@/components/product/ProductCard'
+import BuyModal from '@/components/product/BuyModal'
 
 export default function ProductPage() {
   const { id } = useParams()
-  const { addItem, toggleCart } = useCart()
+  const { toggle, isWishlisted } = useWishlist()
+  const { notify } = useNotification()
   const [activeImg, setActiveImg] = useState(0)
-  const [added, setAdded] = useState(false)
+  const [buyOpen, setBuyOpen] = useState(false)
+  const [shared, setShared] = useState(false)
 
   const product = products.find(p => p.id === id)
 
@@ -26,12 +30,31 @@ export default function ProductPage() {
 
   const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4)
   const catLabel = categories.find(c => c.id === product.category)?.label || product.category
+  const wishlisted = isWishlisted(product.id)
 
-  const handleAdd = () => {
-    addItem(product)
-    setAdded(true)
-    toggleCart()
-    setTimeout(() => setAdded(false), 2000)
+  const discount = product.originalPrice
+    ? Math.round((1 - product.price / product.originalPrice) * 100)
+    : null
+
+  const handleWishlist = () => {
+    toggle(product)
+    notify({
+      type: 'wishlist',
+      message: wishlisted
+        ? `${product.name} removido dos favoritos`
+        : `${product.name} adicionado aos favoritos`,
+    })
+  }
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({ title: product.name, url: window.location.href })
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      setShared(true)
+      setTimeout(() => setShared(false), 2000)
+      notify({ type: 'info', message: 'Link copiado!' })
+    }
   }
 
   return (
@@ -56,7 +79,17 @@ export default function ProductPage() {
 
           {/* Images */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-sm mb-3">
+            <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-sm mb-3 relative">
+              {discount && (
+                <div style={{
+                  position: 'absolute', top: '16px', left: '16px',
+                  background: '#ff3b30', color: '#fff',
+                  fontSize: '13px', fontWeight: 600,
+                  padding: '4px 10px', borderRadius: '10px', zIndex: 2,
+                }}>
+                  -{discount}%
+                </div>
+              )}
               <img
                 src={product.images?.[activeImg] || product.images?.[0]}
                 alt={product.name}
@@ -93,21 +126,51 @@ export default function ProductPage() {
             {/* Price */}
             <div className="bg-white rounded-2xl p-5 mb-5 shadow-sm">
               <p className="text-xs text-qd-gray mb-1">Preço</p>
-              <p className="text-3xl font-semibold text-qd-dark">{formatPrice(product.price)}</p>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+                <p className="text-3xl font-semibold text-qd-dark">{formatPrice(product.price)}</p>
+                {product.originalPrice && (
+                  <p style={{ fontSize: '16px', color: '#aeaeb2', textDecoration: 'line-through' }}>
+                    {formatPrice(product.originalPrice)}
+                  </p>
+                )}
+              </div>
               <p className="text-xs text-qd-light mt-1">Inclui IVA · Pagamento em Kwanzas</p>
             </div>
 
             {/* CTAs */}
             <div className="flex flex-col gap-2.5 mb-6">
-              <button onClick={handleAdd}
-                className={`btn-primary rounded-full py-3.5 justify-center text-sm transition-all ${added ? 'bg-green-500 hover:bg-green-600' : ''}`}>
-                {added ? <><Check size={16} /> Adicionado!</> : <><ShoppingCart size={16} /> Adicionar ao Carrinho</>}
+              {/* Comprar — abre modal */}
+              <button
+                onClick={() => setBuyOpen(true)}
+                className="btn-primary rounded-full py-3.5 justify-center text-sm"
+              >
+                Comprar
               </button>
-              <a href={`https://wa.me/244923000000?text=Olá! Interesse no ${product.name} — ${formatPrice(product.price)}`}
-                target="_blank" rel="noreferrer"
-                className="btn-outline rounded-full py-3.5 justify-center text-sm flex items-center gap-2">
-                <MessageCircle size={15} /> Comprar via WhatsApp
-              </a>
+
+              {/* Wishlist + Partilhar */}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button onClick={handleWishlist} style={{
+                  flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                  padding: '12px', borderRadius: '50px',
+                  border: `1.5px solid ${wishlisted ? '#fecdd3' : '#d2d2d7'}`,
+                  background: wishlisted ? '#fff1f2' : '#fff',
+                  cursor: 'pointer', fontSize: '13px', fontWeight: 500,
+                  color: wishlisted ? '#e11d48' : '#6e6e73', transition: 'all 0.2s',
+                }}>
+                  <Heart size={15} fill={wishlisted ? '#e11d48' : 'none'} color={wishlisted ? '#e11d48' : '#6e6e73'} />
+                  {wishlisted ? 'Guardado' : 'Favoritos'}
+                </button>
+
+                <button onClick={handleShare} style={{
+                  flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                  padding: '12px', borderRadius: '50px',
+                  border: '1.5px solid #d2d2d7', background: '#fff',
+                  cursor: 'pointer', fontSize: '13px', fontWeight: 500, color: '#6e6e73', transition: 'all 0.2s',
+                }}>
+                  {shared ? <Check size={15} color="#16a34a" /> : <Share2 size={15} />}
+                  {shared ? 'Copiado!' : 'Partilhar'}
+                </button>
+              </div>
             </div>
 
             {/* Specs */}
@@ -148,6 +211,9 @@ export default function ProductPage() {
           </div>
         </section>
       )}
+
+      {/* Buy Modal */}
+      {buyOpen && <BuyModal product={product} onClose={() => setBuyOpen(false)} />}
     </main>
   )
 }
